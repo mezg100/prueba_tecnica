@@ -4,6 +4,7 @@ require_once('Modelo.php');
 require_once('Camion.php');
 require_once('Normales.php');
 require_once('Prioritarios.php');
+require_once('Devoluciones.php');
 require_once('Paquetes.php');
 require_once('Origen.php');
 require_once('Destino.php');
@@ -46,20 +47,23 @@ class cargar_rutadeviaje {
 
 		// #creo viaje Normal
 		// $nuevoViajeNormal=new Normales($origen, $destino, $paquetes);
-		// echo "\nLos datos del viaje son:\n";
-		// print_r($nuevoViajeNormal);
-		// print_r("El costo de viaje Normal es: ". $nuevoViajeNormal->getCosto()."\n");
 
-		try{
-			$nuevoPrioritario=new Prioritarios($origen, $destino, [$nuevoCamion]);
-		}catch(exception $e){
-			print_r("\nATENCIÓN! Excepción capturada: ".$e->getMessage());
-		}
+
+		// try{
+		// 	$nuevoPrioritario=new Prioritarios($origen, $destino, $paquetes);
+		// }catch(exception $e){
+		// 	print_r("\nATENCIÓN! Excepción capturada: ".$e->getMessage());
+		// }
 		
-		/*echo "\nLos datos del viaje prioritario son:\n";
-		print_r($nuevoPrioritario);
+		 try{
+		 	$nuevoDevoluciones=new Devoluciones($origen, $destino, $paquetes);
+		 }catch(exception $e){
+		 	print_r("\nATENCIÓN! Excepción capturada: ".$e->getMessage());
+		}
+		echo "\nLos datos del viaje prioritario son:\n";
+		print_r($nuevoDevoluciones);
 		print_r("Direccion origine: " . $origen->getDireccion()."\nDireccion Destino: ". $destino->getDireccion());
-		print_r("\nEl costo de viaje prioritario es : ". $nuevoPrioritario->getCosto()."\n");	*/
+		print_r("\nEl costo de viaje prioritario es : ". $nuevoDevoluciones->getCosto()."\n");
 			
 	}
 
