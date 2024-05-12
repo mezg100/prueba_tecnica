@@ -8,6 +8,7 @@ require_once('Devoluciones.php');
 require_once('Paquetes.php');
 require_once('Origen.php');
 require_once('Destino.php');
+require_once('Hojasderuta.php');
 
 class cargar_rutadeviaje {
 
@@ -45,8 +46,18 @@ class cargar_rutadeviaje {
 		#echo "\nLos datos de los paquetes son:\n";
 		#print_r($paquetes);
 
-		// #creo viaje Normal
-		// $nuevoViajeNormal=new Normales($origen, $destino, $paquetes);
+		 #creo viaje Normal
+		 $nuevoViajeNormal=new Normales($origen, $destino, [$paquetes[0],$paquetes[1]]);
+		 $nuevoPrioritario=new Prioritarios($origen, $destino, [$paquetes[2]]);
+		 $nuevoDevoluciones=new Devoluciones($origen, $destino, [$paquetes[3]]);
+
+		 $hojasDeRuta = array();
+		 Hojasderuta::prepareHojasDeRuta($hojasDeRuta,[$nuevoViajeNormal]);
+		 Hojasderuta::prepareHojasDeRuta($hojasDeRuta,[$nuevoPrioritario]);
+		 Hojasderuta::prepareHojasDeRuta($hojasDeRuta,[$nuevoDevoluciones],'viajes');
+		 print_r($hojasDeRuta);die();
+
+		 
 
 
 		// try{
@@ -55,11 +66,11 @@ class cargar_rutadeviaje {
 		// 	print_r("\nATENCIÓN! Excepción capturada: ".$e->getMessage());
 		// }
 		
-		 try{
+		/* try{
 		 	$nuevoDevoluciones=new Devoluciones($origen, $destino, $paquetes);
 		 }catch(exception $e){
 		 	print_r("\nATENCIÓN! Excepción capturada: ".$e->getMessage());
-		}
+		}*/
 		echo "\nLos datos del viaje prioritario son:\n";
 		print_r($nuevoDevoluciones);
 		print_r("Direccion origine: " . $origen->getDireccion()."\nDireccion Destino: ". $destino->getDireccion());
@@ -81,20 +92,21 @@ class cargar_rutadeviaje {
 			$paquete2->setAncho(0.65);
 			$paquete2->setLargo(0.75);
 
-			/*$paquete3 = new Paquetes();
-			$paquete3->setPeso(3.500);  
-			$paquete3->setAlto(0.75);
-			$paquete3->setAncho(0.65);
-			$paquete3->setLargo(0.75);			
+			$paquete3 = new Paquetes();
+			$paquete3->setPeso(4.600);  
+			$paquete3->setAlto(2.50);
+			$paquete3->setAncho(1.20);
+			$paquete3->setLargo(3.25);			
 
 			$paquete4 = new Paquetes();
-			$paquete4->setPeso(3.500);  
-			$paquete4->setAlto(0.75);
-			$paquete4->setAncho(0.65);
-			$paquete4->setLargo(0.75);*/					
+			$paquete4->setPeso(9300);  
+			$paquete4->setAlto(3.30);
+			$paquete4->setAncho(0.5);
+			$paquete4->setLargo(1.90);				
 
-			return [$paquete1, $paquete2];
+			return [$paquete1, $paquete2, $paquete3, $paquete4];
 	}
+
 }
 
 
