@@ -116,11 +116,6 @@ class Hojasderuta {
 		return $subtotal;		
 	}
 
-	public function getCapacidades():array
-	{
-		return ['getVolumenTotal'=>$this->getVolumenTotal,'getPesoTotal'=>$this->getPesoTotal()];
-	}
-
 	public function getViajes(): array
 	{
 		return $this->viajes;

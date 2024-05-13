@@ -3,9 +3,9 @@
 
 class Origen {
 
-	private $direccion;
-	private $latitud;
-	private $longitud;
+	protected $direccion;
+	protected $latitud;
+	protected $longitud;
 
 	function __construct()
 	{
