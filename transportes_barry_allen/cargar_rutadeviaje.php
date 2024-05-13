@@ -17,7 +17,7 @@ class cargar_rutadeviaje {
 	{
 		
 		#creo modelo
-		$nuevoModelo = new Modelo(100.99,2500);
+		$nuevoModelo = new Modelo(27,18916);
 
 		#creo camion
 		$nuevoCamion = new Camion();
@@ -25,7 +25,6 @@ class cargar_rutadeviaje {
 		$nuevoCamion->setPatente('AA1122AA');
 
 		print_r("El camion patente: " .$nuevoCamion->getPatente() . " tiene un volumen de : ". $nuevoModelo->getVolumen() . " y un peso maximo de : ". $nuevoModelo->getPesomaximo());
-		print_r("\ncreando viaje normal...");
 
 
 		#creo array de paquetes
@@ -34,47 +33,40 @@ class cargar_rutadeviaje {
 		#creo origen
 		$origen = new Origen();
 		$origen->setDireccion('Avenida origen 1234');
-		$origen->setLatitud(-34.66748559085055);
-		$origen->setLongitud(-58.66042360452752);
+		$origen->setLatitud(-34.63344754641283);
+		$origen->setLongitud(-58.5655217973553 );
 
 		#creo Destino
 		$destino = new Destino();
 		$destino->setDireccion('Calle destino 5678');
-		$destino->setLatitud(-34.61092907047732);
-		$destino->setLongitud(-58.38038360262478);
+		$destino->setLatitud(-34.59813408802297);
+		$destino->setLongitud(-58.381234459753074);
 
-		#echo "\nLos datos de los paquetes son:\n";
-		#print_r($paquetes);
-
-		 #creo viaje Normal
+		 #creo viajes normales
 		 $nuevoViajeNormal=new Normales($origen, $destino, [$paquetes[0],$paquetes[1]]);
-		 $nuevoPrioritario=new Prioritarios($origen, $destino, [$paquetes[2]]);
+		 $nuevoViajeNormal_2=new Normales($origen, $destino, [$paquetes[4]]);
+		 $nuevoViajePrioritario=new Prioritarios($origen, $destino, [$paquetes[2]]);
 		 $nuevoDevoluciones=new Devoluciones($origen, $destino, [$paquetes[3]]);
+		 $nuevoDevoluciones_2=new Devoluciones($origen, $destino, [$paquetes[5]]);
 
+		 #preparo array para instanciar Hojas de Ruta
 		 $hojasDeRuta = array();
-		 Hojasderuta::prepareHojasDeRuta($hojasDeRuta,[$nuevoViajeNormal]);
-		 Hojasderuta::prepareHojasDeRuta($hojasDeRuta,[$nuevoPrioritario]);
-		 Hojasderuta::prepareHojasDeRuta($hojasDeRuta,[$nuevoDevoluciones],'viajes');
-		 print_r($hojasDeRuta);die();
+		 Hojasderuta::prepareHojasDeRuta($hojasDeRuta,[$nuevoViajeNormal,$nuevoViajePrioritario]);
+		 Hojasderuta::prepareHojasDeRuta($hojasDeRuta,[$nuevoViajeNormal_2,$nuevoDevoluciones],0);
+		 Hojasderuta::prepareHojasDeRuta($hojasDeRuta,[$nuevoViajeNormal_2,$nuevoDevoluciones],0);
+		 $hojasDeRuta[0]['childs']['childs']=['viajes'=>[$nuevoDevoluciones_2],'childs'=>array()];
 
-		 
+		 #creo instancia
+		 $hojaDeRuta = Hojasderuta::crearHojasDeRuta($hojasDeRuta);
 
+		 print_r("\nEl costo total de la hoja de ruta es de $: ".$hojaDeRuta->getCosto().
+		 	"\nEl peso total de todos los paquetes de cada viaje: " .$hojaDeRuta->getPesoTotal()."\nEl Volumen total de todos los paquetes de cada viaje: ".$hojaDeRuta->getVolumenTotal());
 
-		// try{
-		// 	$nuevoPrioritario=new Prioritarios($origen, $destino, $paquetes);
-		// }catch(exception $e){
-		// 	print_r("\nATENCIÓN! Excepción capturada: ".$e->getMessage());
-		// }
-		
-		/* try{
-		 	$nuevoDevoluciones=new Devoluciones($origen, $destino, $paquetes);
-		 }catch(exception $e){
-		 	print_r("\nATENCIÓN! Excepción capturada: ".$e->getMessage());
-		}*/
-		echo "\nLos datos del viaje prioritario son:\n";
-		print_r($nuevoDevoluciones);
-		print_r("Direccion origine: " . $origen->getDireccion()."\nDireccion Destino: ". $destino->getDireccion());
-		print_r("\nEl costo de viaje prioritario es : ". $nuevoDevoluciones->getCosto()."\n");
+		 try{ 
+		 	$nuevoCamion->asignarHojaDeRuta($hojaDeRuta);
+		 }catch (Exception $e) {
+    		print_r("\nExcepción: ". $e->getMessage(). "\n");
+		}
 			
 	}
 
@@ -104,7 +96,19 @@ class cargar_rutadeviaje {
 			$paquete4->setAncho(0.5);
 			$paquete4->setLargo(1.90);				
 
-			return [$paquete1, $paquete2, $paquete3, $paquete4];
+			$paquete5 = new Paquetes();
+			$paquete5->setPeso(5.100);  
+			$paquete5->setAlto(2.55);
+			$paquete5->setAncho(1.25);
+			$paquete5->setLargo(3.30);			
+
+			$paquete6 = new Paquetes();
+			$paquete6->setPeso(9600);  
+			$paquete6->setAlto(3.35);
+			$paquete6->setAncho(0.6);
+			$paquete6->setLargo(2.00);	
+
+			return [$paquete1, $paquete2, $paquete3, $paquete4, $paquete5, $paquete6];
 	}
 
 }

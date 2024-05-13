@@ -1,8 +1,8 @@
 <?php
 
-require_once('OrigenDestino.php');
+require_once('Origen.php');
 
-class Destino extends OrigenDestino {
+class Destino extends Origen {
 
 	function __construct()
 	{

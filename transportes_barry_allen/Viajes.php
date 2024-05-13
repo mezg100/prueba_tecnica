@@ -28,6 +28,37 @@ abstract class Viajes {
 
 	abstract protected function getCosto(): float;
 
+	public function getPaquetes(): array
+	{
+		return $this->paquetes;
+	}
+
+	public function getOrigen(): origen
+	{
+		return $this->origen;
+	}
+
+	public function getDestino(): destino
+	{
+		return $this->destino;
+	}
+
+	public function getPesoTotal(): float
+	{	$pesoTotal=0.00;
+		foreach($this->paquetes as $paquete){
+			$pesoTotal+=$paquete->getPeso();
+		}
+		return $pesoTotal;
+	}
+
+	public function getVolumenTotal(): float
+	{	$volumenTotal=0.00;
+		foreach($this->paquetes as $paquete){
+			$volumenTotal+=$paquete->getVolumen();
+		}
+		return $volumenTotal;
+	}
+
 	protected function getDistanceBetweenPoints(float $latitude1, float $longitude1, float $latitude2, float $longitude2): float
 	{
 	    $theta = $longitude1 - $longitude2; 
